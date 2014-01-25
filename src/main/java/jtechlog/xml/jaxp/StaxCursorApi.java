@@ -14,8 +14,8 @@ import java.util.List;
 public class StaxCursorApi {
 
     public List<Book> parse(Source source) {
-        List<Book> catalog = new ArrayList<>();
         try {
+            List<Book> catalog = new ArrayList<>();
             XMLInputFactory f = XMLInputFactory.newInstance();
             XMLStreamReader r = f.createXMLStreamReader(source);
             Book book = null;
@@ -32,16 +32,16 @@ public class StaxCursorApi {
                 }
                 r.next();
             }
+            return catalog;
 
         } catch (XMLStreamException xse) {
             throw new RuntimeException("Error parsing xml", xse);
         }
-        return catalog;
     }
 
-    public String write(List<Book> catalog) {
-        StringWriter sw = new StringWriter();
+    public String write(List<Book> catalog) {        
         try {
+            StringWriter sw = new StringWriter();
             XMLOutputFactory output = XMLOutputFactory.newInstance();
             XMLStreamWriter writer = output.createXMLStreamWriter(sw);
             writer.writeStartDocument();
@@ -56,10 +56,10 @@ public class StaxCursorApi {
             }
             writer.writeEndElement();
             writer.flush();
+            return sw.toString();
         } catch (XMLStreamException xse) {
             throw new RuntimeException("Error writing xml", xse);
         }
-        return sw.toString();
     }
 
 }

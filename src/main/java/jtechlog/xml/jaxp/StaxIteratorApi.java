@@ -13,8 +13,8 @@ import java.util.List;
 
 public class StaxIteratorApi {
     public List<Book> parse(Source source) {
-        List<Book> catalog = new ArrayList<>();
         try {
+            List<Book> catalog = new ArrayList<>();
             XMLInputFactory f = XMLInputFactory.newInstance();
             XMLEventReader r = f.createXMLEventReader(source);
             Book book = null;
@@ -34,9 +34,9 @@ public class StaxIteratorApi {
                     }
                 }
             }
+            return catalog;
         } catch (XMLStreamException xse) {
             throw new RuntimeException("Error writing xml", xse);
         }
-        return catalog;
     }
 }
