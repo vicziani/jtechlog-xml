@@ -34,7 +34,7 @@ public class JaxbCycleTest {
         // No exception
         // com.sun.istack.internal.SAXException2: A cycle is detected in the object graph. This will cause
         // infinitely deep XML:
-        // jtechlog.xml.jaxbcycle.Catalog@281902 -> jtechlog.xml.jaxbcycle.Book@58ff51 -> jtechlog.xml.jaxbcycle.Catalog@281902
+        // jaxbcycle.Catalog@281902 -> jaxbcycle.Book@58ff51 -> jaxbcycle.Catalog@281902
     }
 
     private Catalog createCatalog(Book... books) {

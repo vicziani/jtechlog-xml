@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <entry key="name">JTechLog</entry>
-  <entry key="url">http://www.jtechlog.hu</entry>
+  <entry key="isbn10">1590597060</entry>
+  <entry key="title">Pro XML Development with Java Technology</entry>
 </properties>

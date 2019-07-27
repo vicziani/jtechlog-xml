@@ -11,8 +11,8 @@ public class PropertiesTest {
 
     @Test
     public void testLoadProperties() {
-        Properties properties = new PropertiesApi().readProperties(PropertiesTest.class.getResourceAsStream("/jtechlog.properties.xml"));
+        Properties properties = new PropertiesApi().readProperties(PropertiesTest.class.getResourceAsStream("/catalog.properties.xml"));
 
-        assertEquals("JTechLog", properties.getProperty("name"));
+        assertEquals("Pro XML Development with Java Technology", properties.getProperty("title"));
     }
 }
