@@ -1,6 +1,7 @@
 package stax;
 
 import org.junit.jupiter.api.Test;
+import org.xmlunit.assertj.XmlAssert;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringWriter;
@@ -46,7 +47,18 @@ public class StaxTest {
         new StaxCursorApi().write(catalog, sw);
 
         // Then
-        assertEquals("<?xml version=\"1.0\" ?><catalog><book isbn10=\"059610149X\"><title>Java and XML</title></book><book isbn10=\"1590597060\"><title>Pro XML Development with Java Technology</title></book></catalog>", sw.toString());
+        String expected = "<?xml version=\"1.0\" ?>\n" +
+                "<catalog>\n" +
+                "  <book isbn10=\"059610149X\">\n" +
+                "    <title>Java and XML</title>\n" +
+                "  </book>\n" +
+                "  <book isbn10=\"1590597060\">\n" +
+                "    <title>Pro XML Development with Java Technology</title>\n" +
+                "  </book>\n" +
+                "</catalog>";
+        System.out.println(sw.toString());
+
+        XmlAssert.assertThat(sw.toString()).and(expected).areSimilar();
     }
 
     @Test

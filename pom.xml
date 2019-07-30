@@ -29,6 +29,18 @@
             <version>2.3.2</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>net.java.dev.stax-utils</groupId>-->
+<!--            <artifactId>stax-utils</artifactId>-->
+<!--            <version>20070216</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.bea.xml</groupId>-->
+<!--                    <artifactId>jsr173-ri</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

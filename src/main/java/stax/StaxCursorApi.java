@@ -1,5 +1,9 @@
 package stax;
 
+import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
+
+//import javanet.staxutils.IndentingXMLStreamWriter;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -42,7 +46,7 @@ public class StaxCursorApi {
     public void write(List<Book> catalog, Writer w) {
         try {
             XMLOutputFactory output = XMLOutputFactory.newInstance();
-            XMLStreamWriter streamWriter = output.createXMLStreamWriter(w);
+            XMLStreamWriter streamWriter = new IndentingXMLStreamWriter(output.createXMLStreamWriter(w));
             streamWriter.writeStartDocument();
             streamWriter.writeStartElement("catalog");
             for (Book book: catalog) {
