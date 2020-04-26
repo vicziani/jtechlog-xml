@@ -5,7 +5,10 @@ import org.xml.sax.SAXException;
 import org.xmlunit.assertj.XmlAssert;
 import validator.ValidatorApi;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +20,7 @@ public class DomTest {
     public void testParse() {
         // When
         List<Book> books = new DomApi()
-                .parse(DomTest.class.getResourceAsStream("/catalog.xml"));
+                .parse(new BufferedReader(new InputStreamReader(DomTest.class.getResourceAsStream("/catalog.xml"))));
         // Then
         assertEquals(3, books.size());
         assertEquals("Java and XML", books.get(0).getTitle());
@@ -28,7 +31,7 @@ public class DomTest {
     public void testParseWithIterator() {
         // When
         List<Book> books = new DomApi()
-                .parseWithIterator(DomTest.class.getResourceAsStream("/catalog.xml"));
+                .parseWithIterator(new BufferedReader(new InputStreamReader(DomTest.class.getResourceAsStream("/catalog.xml"))));
         // Then
         assertEquals(3, books.size());
         assertEquals("Java and XML", books.get(0).getTitle());
@@ -43,8 +46,8 @@ public class DomTest {
                 createBook("Pro XML Development with Java Technology", "1590597060"));
 
         // When
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        new DomApi().write(catalog, baos);
+        StringWriter writer = new StringWriter();
+        new DomApi().write(catalog, writer);
 
         // Then
         String expected =
@@ -58,7 +61,7 @@ public class DomTest {
                         "  </book>\n" +
                         "</catalog>\n";
 
-        XmlAssert.assertThat(baos.toByteArray()).and(expected).areSimilar();
+        XmlAssert.assertThat(writer.toString()).and(expected).areSimilar();
     }
 
     @Test
@@ -69,11 +72,11 @@ public class DomTest {
                 createBook("Pro XML Development with Java Technology", "1590597060"));
 
         // When
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        new DomApi().write(catalog, baos);
+        StringWriter writer = new StringWriter();
+        new DomApi().write(catalog, writer);
 
         // Then
-        XmlAssert.assertThat(baos.toByteArray()).valueByXPath("/catalog/book[@isbn10 = '1590597060']/title")
+        XmlAssert.assertThat(writer.toString()).valueByXPath("/catalog/book[@isbn10 = '1590597060']/title")
                 .isEqualTo("Pro XML Development with Java Technology");
 
     }
@@ -86,11 +89,11 @@ public class DomTest {
                 createBook("Pro XML Development with Java Technology", "1590597060"));
 
         // When
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        new DomApi().write(catalog, baos);
+        StringWriter writer = new StringWriter();
+        new DomApi().write(catalog, writer);
 
         // Then
-        XmlAssert.assertThat(baos.toByteArray()).isValidAgainst(ValidatorApi.class.getResourceAsStream("/catalog.xsd"));
+        XmlAssert.assertThat(writer.toString()).isValidAgainst(ValidatorApi.class.getResourceAsStream("/catalog.xsd"));
     }
 
     private Book createBook(String title, String isbn10) {

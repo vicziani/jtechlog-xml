@@ -1,9 +1,11 @@
 package beans;
 
+import org.xml.sax.InputSource;
+
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.Reader;
 
 public class BeansApi {
 
@@ -15,8 +17,8 @@ public class BeansApi {
         return baos.toString();
     }
 
-    public Catalog readFromXml(InputStream stream) {
-        XMLDecoder decoder = new XMLDecoder(stream);
+    public Catalog readFromXml(Reader reader) {
+        XMLDecoder decoder = new XMLDecoder(new InputSource(reader));
         return (Catalog) decoder.readObject();
     }
 }

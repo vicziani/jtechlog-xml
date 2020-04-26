@@ -1,23 +1,23 @@
 package sax;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
+import org.xml.sax.InputSource;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SaxApi {
 
-    public List<Book> parse(InputStream inputStream) {
+    public List<Book> parse(Reader reader) {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             BookSaxHandler handler = new BookSaxHandler();
-            saxParser.parse(inputStream, handler);
+            saxParser.parse(new InputSource(reader), handler);
             return handler.getCatalog();
         }
         catch (Exception e) {

@@ -4,27 +4,27 @@ import org.w3c.dom.*;
 import org.w3c.dom.traversal.DocumentTraversal;
 import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DomApi {
 
-    public List<Book> parse(InputStream is) {
+    public List<Book> parse(Reader reader) {
         List<Book> catalog = new ArrayList<>();
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-                Document document = documentBuilder.parse(is);
+            Document document = documentBuilder.parse(new InputSource(reader));
             NodeList l = document.getElementsByTagName("book");
             for (int i = 0; i < l.getLength(); i++) {
                 Book book = new Book();
@@ -35,12 +35,12 @@ public class DomApi {
             }
             return catalog;
         }
-        catch (Exception e) {
+        catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException("Error parsing xml", e);
         }
     }
 
-    public List<Book> parseWithIterator(InputStream is) {
+    public List<Book> parseWithIterator(Reader reader) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -49,7 +49,7 @@ public class DomApi {
                 throw new IllegalStateException("Invalid implementation");
             }
 
-            Document document = documentBuilder.parse(is);
+            Document document = documentBuilder.parse(new InputSource(reader));
 
             NodeIterator i = ((DocumentTraversal) document).createNodeIterator(document, NodeFilter.SHOW_ELEMENT, null, true);
             Node node;
@@ -72,7 +72,7 @@ public class DomApi {
         }
     }
 
-    public void write(List<Book> catalog, OutputStream os) {
+    public void write(List<Book> catalog, Writer writer) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -96,11 +96,11 @@ public class DomApi {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(os);
+            StreamResult result = new StreamResult(writer);
 
             transformer.transform(source, result);
         }
-        catch (Exception e) {
+        catch (ParserConfigurationException | TransformerException e) {
             throw new RuntimeException("Error parsing xml", e);
         }
     }
